@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 
-[DisallowMultipleComponent]
 public abstract class DataBinding : MonoBehaviour
 {
     [ReadOnly]
-    public Object Target;
+    public Component Target;
     public string DataID;
     public bool AutoRefreshDataID = true;
+
+    public abstract Type BindingType { get; }
 
     private void Reset()
     {
@@ -24,7 +26,7 @@ public abstract class DataBinding : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Binding failed : No {typeof(T).Name} component found on {gameObject.name}");
+            Debug.LogError($"[{BindingType}Binding] Required component {typeof(T).Name} is missing on {gameObject.name}");
         }
     }
 }
