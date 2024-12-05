@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TestCanvas : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class TestCanvas : MonoBehaviour
 
     private void Start()
     {
-        var image = _binder.Get<Image>("FooImage");
-        Debug.Log(image.name);
+        Debug.Log(_binder.Get<Image>("ImageTwo").name);
     }
 }

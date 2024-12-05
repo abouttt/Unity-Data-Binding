@@ -1,35 +1,32 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DataBinder : MonoBehaviour
 {
-    private readonly Dictionary<string, Object> _bindings = new();
+    private readonly Dictionary<Type, Dictionary<string, Component>> _bindings = new();
 
     private void Awake()
     {
         FindDataBindings();
     }
 
-    public T Get<T>(string id) where T : Object
+    public T Get<T>(string id) where T : Component
     {
-        if (_bindings.TryGetValue(id, out var data))
+        if (_bindings.TryGetValue(typeof(T), out var type))
         {
-            return data as T;
+            if (type.TryGetValue(id, out var component))
+            {
+                return component as T;
+            }
         }
 
         return null;
     }
 
-    public bool Contains(string id)
-    {
-        return _bindings.ContainsKey(id);
-    }
-
     private void FindDataBindings()
     {
-        var dataBindings = gameObject.GetComponentsInChildren<DataBinding>(true);
-
-        foreach (var binding in dataBindings)
+        foreach (var binding in gameObject.GetComponentsInChildren<DataBinding>(true))
         {
             if (IsNullBinding(binding))
             {
@@ -37,14 +34,25 @@ public class DataBinder : MonoBehaviour
                 continue;
             }
 
-            if (_bindings.ContainsKey(binding.DataID))
-            {
-                LogWarning($"Binding failed : Duplicate ID '{binding.DataID}'", binding);
-                continue;
-            }
-
-            _bindings.Add(binding.DataID, binding.Target);
+            AddBinding(binding);
         }
+    }
+
+    private void AddBinding(DataBinding binding)
+    {
+        if (!_bindings.TryGetValue(binding.BindingType, out var typeBindings))
+        {
+            typeBindings = new Dictionary<string, Component>();
+            _bindings[binding.BindingType] = typeBindings;
+        }
+
+        if (typeBindings.ContainsKey(binding.DataID))
+        {
+            LogWarning($"Binding failed : Duplicate ID", binding);
+            return;
+        }
+
+        typeBindings.Add(binding.DataID, binding.Target);
     }
 
     private bool IsNullBinding(DataBinding binding)
