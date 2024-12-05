@@ -13,6 +13,6 @@ public class TestCanvas : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(_binder.Get<Image>("ImageTwo").name);
+        Debug.Log(_binder.GetImage("ImageTwo").name);
     }
 }

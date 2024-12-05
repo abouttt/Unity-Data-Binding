@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DataBinder : MonoBehaviour
 {
@@ -10,6 +12,18 @@ public class DataBinder : MonoBehaviour
     {
         FindDataBindings();
     }
+
+    public RectTransform GetRectTransform(string id) => Get<RectTransform>(id);
+    public Image GetImage(string id) => Get<Image>(id);
+    public RawImage GetRawImage(string id) => Get<RawImage>(id);
+    public TextMeshProUGUI GetText(string id) => Get<TextMeshProUGUI>(id);
+    public Button GetButton(string id) => Get<Button>(id);
+    public Toggle GetToggle(string id) => Get<Toggle>(id);
+    public Slider GetSlider(string id) => Get<Slider>(id);
+    public Scrollbar GetScrollbar(string id) => Get<Scrollbar>(id);
+    public ScrollRect GetScrollRect(string id) => Get<ScrollRect>(id);
+    public TMP_Dropdown GetDropdown(string id) => Get<TMP_Dropdown>(id);
+    public TMP_InputField GetInputField(string id) => Get<TMP_InputField>(id);
 
     public T Get<T>(string id) where T : Component
     {
