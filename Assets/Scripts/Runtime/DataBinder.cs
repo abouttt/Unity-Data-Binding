@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Object = UnityEngine.Object;
 
 public class DataBinder : MonoBehaviour
 {
-    private readonly Dictionary<Type, Dictionary<string, Component>> _bindings = new();
+    private readonly Dictionary<Type, Dictionary<string, Object>> _bindings = new();
 
     private void Awake()
     {
         FindDataBindings();
     }
 
+    public GameObject GetObject(string id) => Get<GameObject>(id);
     public RectTransform GetRectTransform(string id) => Get<RectTransform>(id);
     public Image GetImage(string id) => Get<Image>(id);
     public RawImage GetRawImage(string id) => Get<RawImage>(id);
@@ -25,7 +27,7 @@ public class DataBinder : MonoBehaviour
     public TMP_Dropdown GetDropdown(string id) => Get<TMP_Dropdown>(id);
     public TMP_InputField GetInputField(string id) => Get<TMP_InputField>(id);
 
-    public T Get<T>(string id) where T : Component
+    public T Get<T>(string id) where T : Object
     {
         if (_bindings.TryGetValue(typeof(T), out var type))
         {
@@ -56,7 +58,7 @@ public class DataBinder : MonoBehaviour
     {
         if (!_bindings.TryGetValue(binding.BindingType, out var typeBindings))
         {
-            typeBindings = new Dictionary<string, Component>();
+            typeBindings = new Dictionary<string, Object>();
             _bindings[binding.BindingType] = typeBindings;
         }
 

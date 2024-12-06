@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public abstract class DataBinding : MonoBehaviour
 {
     [ReadOnly]
-    public Component Target;
+    public Object Target;
     public string DataID;
     public bool AutoRefreshDataID = true;
 
