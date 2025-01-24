@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class ScrollRectBinding : DataBinding
 {
     public override Type BindingType => typeof(ScrollRect);
-
-    protected override void Setup()
-    {
-        FindTarget<ScrollRect>();
-    }
 }

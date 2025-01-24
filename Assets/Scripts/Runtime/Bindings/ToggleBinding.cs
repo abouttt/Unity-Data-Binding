@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class ToggleBinding : DataBinding
 {
     public override Type BindingType => typeof(Toggle);
-
-    protected override void Setup()
-    {
-        FindTarget<Toggle>();
-    }
 }

@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class SliderBinding : DataBinding
 {
     public override Type BindingType => typeof(Slider);
-
-    protected override void Setup()
-    {
-        FindTarget<Slider>();
-    }
 }

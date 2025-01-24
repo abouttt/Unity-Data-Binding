@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class DropdownBinding : DataBinding
 {
     public override Type BindingType => typeof(Dropdown);
-
-    protected override void Setup()
-    {
-        FindTarget<Dropdown>();
-    }
 }

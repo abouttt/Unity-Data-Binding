@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class ButtonBinding : DataBinding
 {
     public override Type BindingType => typeof(Button);
-
-    protected override void Setup()
-    {
-        FindTarget<Button>();
-    }
 }

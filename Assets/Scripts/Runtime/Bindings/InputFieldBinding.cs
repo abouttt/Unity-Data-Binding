@@ -7,9 +7,4 @@ using TMPro;
 public class InputFieldBinding : DataBinding
 {
     public override Type BindingType => typeof(TMP_InputField);
-
-    protected override void Setup()
-    {
-        FindTarget<TMP_InputField>();
-    }
 }

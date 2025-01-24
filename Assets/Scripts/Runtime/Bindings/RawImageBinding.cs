@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class RawImageBinding : DataBinding
 {
     public override Type BindingType => typeof(RawImage);
-
-    protected override void Setup()
-    {
-        FindTarget<RawImage>();
-    }
 }

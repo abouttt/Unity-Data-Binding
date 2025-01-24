@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class ImageBinding : DataBinding
 {
     public override Type BindingType => typeof(Image);
-
-    protected override void Setup()
-    {
-        FindTarget<Image>();
-    }
 }

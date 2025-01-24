@@ -17,17 +17,20 @@ public abstract class DataBinding : MonoBehaviour
         Setup();
     }
 
-    protected abstract void Setup();
-
-    protected void FindTarget<T>() where T : Component
+    protected virtual void Setup()
     {
-        if (TryGetComponent<T>(out var component))
+        FindTarget(BindingType);
+    }
+
+    protected void FindTarget(Type type)
+    {
+        if (TryGetComponent(type, out var component))
         {
             Target = component;
         }
         else
         {
-            Debug.LogError($"[{BindingType}Binding] Required component {typeof(T).Name} is missing on {gameObject.name}");
+            Debug.LogError($"[{BindingType}Binding] Required component {type.Name} is missing on {gameObject.name}");
         }
     }
 }

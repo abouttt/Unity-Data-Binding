@@ -6,9 +6,4 @@ using UnityEngine;
 public class RectTransformBinding : DataBinding
 {
     public override Type BindingType => typeof(RectTransform);
-
-    protected override void Setup()
-    {
-        FindTarget<RectTransform>();
-    }
 }

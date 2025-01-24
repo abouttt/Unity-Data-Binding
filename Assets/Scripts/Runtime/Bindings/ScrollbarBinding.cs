@@ -7,9 +7,4 @@ using UnityEngine.UI;
 public class ScrollbarBinding : DataBinding
 {
     public override Type BindingType => typeof(Scrollbar);
-
-    protected override void Setup()
-    {
-        FindTarget<Scrollbar>();
-    }
 }
