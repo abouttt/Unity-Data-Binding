@@ -8,15 +8,30 @@ public class DataBindingEditor : Editor
     {
         serializedObject.Update();
 
-        DrawDefaultInspector();
-
         var dataBinding = (DataBinding)target;
 
-        // AutoRefreshDataID가 활성화되어 있고 DataID가 오브젝트 이름과 다르면 갱신
-        if (dataBinding.AutoRefreshDataID && !dataBinding.DataID.Equals(dataBinding.gameObject.name))
+        EditorGUI.BeginDisabledGroup(true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("Target"));
+        EditorGUI.EndDisabledGroup();
+
+        if (dataBinding.AutoRefreshDataID)
         {
-            dataBinding.DataID = dataBinding.gameObject.name;
-            serializedObject.ApplyModifiedProperties();
+            if (dataBinding.DataID != dataBinding.gameObject.name)
+            {
+                dataBinding.DataID = dataBinding.gameObject.name;
+            }
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("DataID"));
+            EditorGUI.EndDisabledGroup();
         }
+        else
+        {
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("DataID"));
+        }
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("AutoRefreshDataID"));
+
+        serializedObject.ApplyModifiedProperties();
     }
 }

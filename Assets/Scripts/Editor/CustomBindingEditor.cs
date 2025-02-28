@@ -2,15 +2,12 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(CustomBinding), true)]
-public class CustomBindingEditor : Editor
+public class CustomBindingEditor : DataBindingEditor
 {
     public override void OnInspectorGUI()
     {
-        serializedObject.Update();
+        base.OnInspectorGUI();
 
-        DrawDefaultInspector();
-
-        // 타입 이름으로 컴포넌트 찾기
         var customBinding = (CustomBinding)target;
 
         if (!string.IsNullOrEmpty(customBinding.TypeName))

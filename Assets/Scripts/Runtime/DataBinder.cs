@@ -1,31 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using Object = UnityEngine.Object;
 
-public class DataBinder : MonoBehaviour
+public class DataBinder
 {
     private readonly Dictionary<Type, Dictionary<string, Object>> _bindings = new();
 
-    private void Awake()
+    public DataBinder(GameObject gameObject)
     {
-        FindDataBindings();
+        FindDataBindings(gameObject);
     }
-
-    public GameObject GetObject(string id) => Get<GameObject>(id);
-    public RectTransform GetRectTransform(string id) => Get<RectTransform>(id);
-    public Image GetImage(string id) => Get<Image>(id);
-    public RawImage GetRawImage(string id) => Get<RawImage>(id);
-    public TextMeshProUGUI GetText(string id) => Get<TextMeshProUGUI>(id);
-    public Button GetButton(string id) => Get<Button>(id);
-    public Toggle GetToggle(string id) => Get<Toggle>(id);
-    public Slider GetSlider(string id) => Get<Slider>(id);
-    public Scrollbar GetScrollbar(string id) => Get<Scrollbar>(id);
-    public ScrollRect GetScrollRect(string id) => Get<ScrollRect>(id);
-    public TMP_Dropdown GetDropdown(string id) => Get<TMP_Dropdown>(id);
-    public TMP_InputField GetInputField(string id) => Get<TMP_InputField>(id);
 
     public T Get<T>(string id) where T : Object
     {
@@ -40,31 +25,31 @@ public class DataBinder : MonoBehaviour
         return null;
     }
 
-    private void FindDataBindings()
+    private void FindDataBindings(GameObject gameObject)
     {
         foreach (var binding in gameObject.GetComponentsInChildren<DataBinding>(true))
         {
             if (IsNullBinding(binding))
             {
-                LogWarning($"Binding failed : ID or Target is null", binding);
+                LogBindingFailed(gameObject, $"{binding} ID or Target is null");
                 continue;
             }
 
-            AddBinding(binding);
+            AddBinding(gameObject, binding);
         }
     }
 
-    private void AddBinding(DataBinding binding)
+    private void AddBinding(GameObject gameObject, DataBinding binding)
     {
         if (!_bindings.TryGetValue(binding.BindingType, out var typeBindings))
         {
-            typeBindings = new Dictionary<string, Object>();
-            _bindings[binding.BindingType] = typeBindings;
+            typeBindings = new();
+            _bindings.Add(binding.BindingType, typeBindings);
         }
 
-        if (typeBindings.ContainsKey(binding.DataID))
+        if (typeBindings.TryGetValue(binding.DataID, out var existing))
         {
-            LogWarning($"Binding failed : Duplicate ID", binding);
+            LogBindingFailed(gameObject, $"Duplicate ID ({binding.DataID}) already bound to {existing.name}");
             return;
         }
 
@@ -76,8 +61,8 @@ public class DataBinder : MonoBehaviour
         return string.IsNullOrEmpty(binding.DataID) || binding.Target == null;
     }
 
-    private void LogWarning(string message, DataBinding binding)
+    private void LogBindingFailed(GameObject gameObject, string message)
     {
-        Debug.LogWarning($"[DataBinder] {gameObject.name} - {message} (ID : {binding.DataID}, Target : {binding.Target})");
+        Debug.LogWarning($"[DataBinder] {gameObject.name} binding failed: {message}");
     }
 }

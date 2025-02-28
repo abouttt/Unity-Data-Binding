@@ -8,11 +8,15 @@ public class TestCanvas : MonoBehaviour
 
     private void Awake()
     {
-        _binder = GetComponent<DataBinder>();
+        _binder = new(gameObject);
     }
 
     private void Start()
     {
-        Debug.Log(_binder.GetObject("GameObject").name);
+        Debug.Log(_binder.Get<TestCanvas>("TestCanvas").name);
+        Debug.Log(_binder.Get<GameObject>("GameObject").name);
+        Debug.Log(_binder.Get<Image>("ImageOne").name);
+        Debug.Log(_binder.Get<Image>("ImageTwo").name);
+        Debug.Log(_binder.Get<TextMeshProUGUI>("Text").name);
     }
 }
