@@ -8,6 +8,6 @@ public class CustomBinding : DataBinding
 
     protected override void Setup()
     {
-        
+        Target = null;
     }
 }

@@ -13,7 +13,7 @@ public class TestCanvas : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(_binder.Get<TestCanvas>("TestCanvas").name);
+        Debug.Log(_binder.Get<TestComponent>("TestComponent").name);
         Debug.Log(_binder.Get<GameObject>("GameObject").name);
         Debug.Log(_binder.Get<Image>("ImageOne").name);
         Debug.Log(_binder.Get<Image>("ImageTwo").name);

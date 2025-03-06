@@ -10,6 +10,8 @@ public class CustomBindingEditor : DataBindingEditor
 
         var customBinding = (CustomBinding)target;
 
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("TypeName"));
+
         if (!string.IsNullOrEmpty(customBinding.TypeName))
         {
             customBinding.Target = customBinding.GetComponent(customBinding.TypeName);
@@ -20,7 +22,7 @@ public class CustomBindingEditor : DataBindingEditor
         }
         else
         {
-            EditorGUILayout.HelpBox("Type Name is empty.", MessageType.Info);
+            EditorGUILayout.HelpBox("Type Name is empty.", MessageType.Warning);
         }
 
         serializedObject.ApplyModifiedProperties();
